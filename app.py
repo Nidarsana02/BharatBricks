@@ -160,7 +160,21 @@ def load_alert_data():
         data = cursor.fetchall()
         columns = [desc[0] for desc in cursor.description]
         cursor.close()
-        return pd.DataFrame(data, columns=columns)
+        
+        df = pd.DataFrame(data, columns=columns)
+        # Normalize column names
+        df.columns = df.columns.str.lower()
+        
+        # Rename possible variations
+        df = df.rename(columns={
+            "lat": "latitude",
+            "lon": "longitude",
+            "lng": "longitude",
+            "district": "city",
+            "location": "city"
+        })
+
+return df
     except Exception as e:
         st.error(f"Failed to load alerts: {e}")
         return pd.DataFrame()
@@ -180,7 +194,20 @@ def load_pincode_coordinates():
         data = cursor.fetchall()
         columns = [desc[0] for desc in cursor.description]
         cursor.close()
-        return pd.DataFrame(data, columns=columns)
+        df = pd.DataFrame(data, columns=columns)
+        # Normalize column names
+        df.columns = df.columns.str.lower()
+        
+        # Rename possible variations
+        df = df.rename(columns={
+            "lat": "latitude",
+            "lon": "longitude",
+            "lng": "longitude",
+            "district": "city",
+            "location": "city"
+        })
+        
+        return df
     except Exception as e:
         st.error(f"Failed to load coordinates: {e}")
         return pd.DataFrame()
