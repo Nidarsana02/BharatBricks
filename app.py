@@ -9,7 +9,6 @@ import folium
 from folium import plugins
 from streamlit_folium import st_folium
 from datetime import datetime, timedelta
-from databricks import sql
 import os
 
 # Page configuration
